@@ -3,6 +3,8 @@ package controllers
 import play.api.mvc._
 import play.api.libs.json.Json
 import scala.util.Random
+import play.api.cache.Cached
+import play.api.Play.current
 
 object Application extends Controller {
 
@@ -22,6 +24,12 @@ object Application extends Controller {
         "color" -> c
       )))
     }.getOrElse(NotFound)
+  }
+
+  def requireJsConfig = Cached("require_js_config") {
+    Action {
+      Ok(views.html.requireJsConfig()).as("application/javascript")
+    }
   }
 
 }

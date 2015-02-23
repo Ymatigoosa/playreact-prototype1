@@ -6,7 +6,7 @@ import play.api.mvc.WebSocket.FrameFormatter
 
 object SumActor {
 
-  def props(out: ActorRef) = Props(new SumActor(out))
+  def props(out: ActorRef) = Props(classOf[SumActor], out)
 
   /**
    * Sum the given values.

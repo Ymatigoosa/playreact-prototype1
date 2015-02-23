@@ -7,6 +7,9 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala)
 scalaVersion := "2.11.5"
 
 libraryDependencies ++= Seq(
+  cache,
+  ws,
+  "org.webjars" %% "webjars-play" % "2.3.0-2",
   "org.webjars" % "bootstrap" % "3.3.2",
   "org.webjars" % "jquery" % "1.11.1",
   "org.webjars" % "requirejs" % "2.1.16",
@@ -18,6 +21,8 @@ libraryDependencies ++= Seq(
 // JsEngineKeys.engineType := JsEngineKeys.EngineType.Node
 
 MochaKeys.requires += "./Setup"
+
+CoffeeScriptKeys.sourceMap := true
 
 // Apply RequireJS optimization, digest calculation and gzip compression to assets
 pipelineStages := Seq(rjs, digest, gzip)

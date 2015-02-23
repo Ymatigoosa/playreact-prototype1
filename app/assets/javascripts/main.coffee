@@ -1,3 +1,4 @@
+###
 require.config {
   paths: {
     page: "./Page"
@@ -14,6 +15,7 @@ require.config {
     }
   }
 }
+###
 
 require ["controller"], (controller) ->
 
