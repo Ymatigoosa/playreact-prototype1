@@ -6,6 +6,6 @@ GET        /sum/:password          controllers.SumController.socket(password)
 # Use `Assets.versioned` to enable Play 2.3's Asset Fingerprinting
 GET        /assets/*file           controllers.Assets.versioned(path="/public", file: Asset)
 
-GET        /webjars/rjsconf.js     controllers.Application.requireJsConfig
+GET        /webjars/requireJsConfig.js     controllers.Application.requireJsConfig
 
 GET        /webjars/*file          controllers.WebJarAssets.at(file)
