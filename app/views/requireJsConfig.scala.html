@@ -1,1 +1,17 @@
-@Html(org.webjars.RequireJS.getSetupJavaScript(routes.WebJarAssets.at("").url))
+var require = {
+    callback: function() {
+        // default requirejs configs
+        @for(webJarJson <- org.webjars.RequireJS.getSetupJson(routes.WebJarAssets.at("").url).values()) {
+        requirejs.config(@Html(webJarJson.toString));
+        }
+        // custom requirejs config
+        requirejs.config({
+            paths: {
+                jquery: "//code.jquery.com/jquery-1.11.1.min"
+            },
+            shim: {
+                bootstrap: []
+            }
+        });
+    }
+};

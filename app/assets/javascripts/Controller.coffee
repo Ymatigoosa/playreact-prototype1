@@ -1,5 +1,5 @@
 # Contains the actual business logic of the main page
-define ["page", "sumWebSocket"], (page, sumWebSocket) ->
+define ["Page", "SumWebSocket"], (page, sumWebSocket) ->
 
   ws = undefined
 

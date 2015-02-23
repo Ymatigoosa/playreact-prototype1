@@ -17,6 +17,6 @@ require.config {
 }
 ###
 
-require ["controller"], (controller) ->
+require ["Controller"], (controller) ->
 
   controller.bind()
