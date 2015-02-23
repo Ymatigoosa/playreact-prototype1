@@ -25,4 +25,5 @@ MochaKeys.requires += "./Setup"
 CoffeeScriptKeys.sourceMap := true
 
 // Apply RequireJS optimization, digest calculation and gzip compression to assets
-pipelineStages := Seq(rjs, digest, gzip)
+//pipelineStages := Seq(rjs, digest, gzip)
+pipelineStages := Seq(digest, gzip)
