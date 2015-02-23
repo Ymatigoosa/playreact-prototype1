@@ -1,8 +1,9 @@
 define () ->
   class SumWebSocket
     constructor: (password) ->
-      @ws = new WebSocket("ws://localhost:9000/sum/" + password)
-      @ws.onerror = () ->
+      try
+        @ws = new WebSocket("ws://localhost:9000/sum/" + password)
+      catch e
         @ws = new WebSocket("wss://localhost:9000/sum/" + password)
 
     onConnected: (callback) ->
