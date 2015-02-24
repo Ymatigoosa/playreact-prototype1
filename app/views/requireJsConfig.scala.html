@@ -1,17 +1,18 @@
 var require = {
     callback: function() {
         // default requirejs configs
-        @for(webJarJson <- org.webjars.RequireJS.getSetupJson(routes.WebJarAssets.at("").url).values()) {
+        @defining(play.api.Play.current.configuration.getString("RequireJS.CdnUrl").getOrElse("")) { cdnurl =>
+        @for(webJarJson <- org.webjars.RequireJS.getSetupJson(cdnurl, routes.WebJarAssets.at("").url).values() ) {
         requirejs.config(@Html(webJarJson.toString));
-        }
+        }}
         // custom requirejs config
-        requirejs.config({
+        /*requirejs.config({
             paths: {
                 jquery: "//code.jquery.com/jquery-1.11.1.min"
             },
             shim: {
                 bootstrap: []
             }
-        });
+        });*/
     }
 };
