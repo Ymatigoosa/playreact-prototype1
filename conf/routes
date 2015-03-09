@@ -1,15 +1,17 @@
 
-GET         /                                  controllers.Application.index
+GET        /sum/:password                     controllers.SumController.socket(password)
 
-GET         /sum/:password                     controllers.SumController.socket(password)
-
-GET         /webjars/requireJsConfig.js        controllers.Application.requireJsConfig
+GET        /webjars/requireJsConfig.js        controllers.Application.requireJsConfig
 
 # Versioned Assets
-GET         /vassets/*file          controllers.Assets.versioned(path="/public", file: Asset)
+GET        /vassets/*file                     controllers.Assets.versioned(path="/public", file: Asset)
 
 # Unversioned Assets
-GET         /assets/*file           controllers.Assets.at(path="/public", file)
+GET        /assets/*file                      controllers.Assets.at(path="/public", file)
 
 # WebJars
-GET         /webjars/*file          controllers.WebJarAssets.at(file)
+GET        /webjars/*file                     controllers.WebJarAssets.at(file)
+
+GET        /                                  controllers.Application.serverSideWithJsEngine(uri = "")
+
+GET        /*uri                              controllers.Application.serverSideWithJsEngine(uri)

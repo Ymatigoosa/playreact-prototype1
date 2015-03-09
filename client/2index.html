@@ -1,6 +1,4 @@
-@(content: Html)
 <!DOCTYPE html>
-
 <html>
 <head>
     <meta charSet="utf-8" />
@@ -8,7 +6,8 @@
     <meta name="viewport" content="width=device-width, user-scalable=no" />
 </head>
 <body>
-    @content
+    <div id="app"></div>
 </body>
-<script src="@routes.Assets.versioned("client.js")"></script>
+<script >windows.App = {};</script>
+<script src="http://localhost:2992/build/public/client.js"></script>
 </html>
