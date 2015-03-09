@@ -9,6 +9,7 @@ var jsserialize = require('serialize-javascript');
 var navigateAction = require('flux-router-component').navigateAction;
 var React = require('react');
 var app = require('./app');
+var Exception = Java.type('java.lang.Exception');
 
 global.prerender = function (uri, markupPromise) {
     var context = app.createContext();
@@ -17,7 +18,7 @@ global.prerender = function (uri, markupPromise) {
         url: uri
     }, function (err) {
         if (err) {
-            markupPromise.success(err);
+            markupPromise.failure(new Exception(err.toString()));
             return;
         }
 

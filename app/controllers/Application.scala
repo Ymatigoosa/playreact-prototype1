@@ -8,10 +8,9 @@ import play.api.libs.concurrent.Execution.Implicits._
 import play.api.mvc._
 import play.twirl.api.Html
 import scala.concurrent.Promise
+import scala.util.{Failure, Success}
 
 object Application extends Controller {
-
-
 
   def requireJsConfig = Cached("require_js_config") {
     Action {
@@ -29,13 +28,14 @@ object Application extends Controller {
     val serversidejs = scala.io.Source.fromFile(Play.getFile("public/serverside.js")).mkString
     engine.eval(nashornpolyfill)
     engine.eval(serversidejs)
+
     val markupPromise = Promise[String]()
     invocable.invokeFunction("prerender", request.uri, markupPromise)
 
-    for {
-      markup <- markupPromise.future
-    } yield {
-      Ok(views.html.main(Html(markup)))
+    markupPromise.future.map{
+      case markup => Ok(views.html.main(Html(markup)))
+    }.recover{
+      case e => BadRequest(e.getMessage)
     }
   }
 
