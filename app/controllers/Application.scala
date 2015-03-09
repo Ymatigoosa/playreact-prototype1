@@ -24,8 +24,12 @@ object Application extends Controller {
     val manager: ScriptEngineManager = new ScriptEngineManager(null)
     val engine = manager.getEngineByName("nashorn")
     val invocable = engine.asInstanceOf[javax.script.Invocable]
-    val nashornpolyfill = scala.io.Source.fromFile(Play.getFile("public/nashorn-polyfill.js")).mkString
-    val serversidejs = scala.io.Source.fromFile(Play.getFile("public/serverside.js")).mkString
+    val f1 = scala.io.Source.fromFile(Play.getFile("public/nashorn-polyfill.js"))
+    val nashornpolyfill = f1.mkString
+    f1.close
+    val f2 = scala.io.Source.fromFile(Play.getFile("public/serverside.js"))
+    val serversidejs = f2.mkString
+    f2.close
     engine.eval(nashornpolyfill)
     engine.eval(serversidejs)
 
