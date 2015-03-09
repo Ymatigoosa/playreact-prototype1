@@ -12,6 +12,18 @@ import scala.util.{Failure, Success}
 
 object Application extends Controller {
 
+  val manager: ScriptEngineManager = new ScriptEngineManager(null)
+  val engine = manager.getEngineByName("nashorn")
+  val invocable = engine.asInstanceOf[javax.script.Invocable]
+  val nashornpolyfill = scala.io.Source.fromFile(Play.getFile("public/nashorn-polyfill.js"))
+  val nashornpolyfilljs = nashornpolyfill.mkString
+  nashornpolyfill.close
+  val serverside = scala.io.Source.fromFile(Play.getFile("public/serverside.js"))
+  val serversidejs = serverside.mkString
+  serverside.close
+  engine.eval(nashornpolyfilljs)
+  engine.eval(serversidejs)
+
   def requireJsConfig = Cached("require_js_config") {
     Action {
       Ok(views.html.requireJsConfig()).as("application/javascript")
@@ -19,20 +31,7 @@ object Application extends Controller {
   }
 
   def serverSideWithJsEngine(uri: String) = Action.async { request =>
-
-    // TODO - move this block to constructor in production
-    val manager: ScriptEngineManager = new ScriptEngineManager(null)
-    val engine = manager.getEngineByName("nashorn")
-    val invocable = engine.asInstanceOf[javax.script.Invocable]
-    val f1 = scala.io.Source.fromFile(Play.getFile("public/nashorn-polyfill.js"))
-    val nashornpolyfill = f1.mkString
-    f1.close
-    val f2 = scala.io.Source.fromFile(Play.getFile("public/serverside.js"))
-    val serversidejs = f2.mkString
-    f2.close
-    engine.eval(nashornpolyfill)
-    engine.eval(serversidejs)
-
+    
     val markupPromise = Promise[String]()
     invocable.invokeFunction("prerender", request.uri, markupPromise)
 
