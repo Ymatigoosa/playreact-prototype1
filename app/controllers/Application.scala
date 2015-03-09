@@ -1,42 +1,17 @@
 package controllers
 
-import java.io.{ByteArrayOutputStream, File}
-import akka.actor.Props
-import akka.util.Timeout
-import com.typesafe.jse.Engine.JsExecutionResult
-import com.typesafe.jse._
-import io.apigee.trireme.core._
+import javax.script.ScriptEngineManager
 import play.api.Play.current
 import play.api._
 import play.api.cache.Cached
-import play.api.libs.concurrent.Akka
 import play.api.libs.concurrent.Execution.Implicits._
-import play.api.libs.json.Json
 import play.api.mvc._
 import play.twirl.api.Html
 import scala.concurrent.Promise
-import scala.concurrent.duration._
-import scala.util.Random
 
 object Application extends Controller {
 
-  def index = Action {
-    Ok(views.html.index())
-  }
 
-  val colors = IndexedSeq("red", "green", "purple", "black", "yellow", "blue", "pink")
-
-  /*def number = Action(Ok(Json.toJson(Json.obj(
-    "number" -> Random.nextInt(colors.size)
-  ))))*/
-
-  def color(i: Int) = Action {
-    colors.lift(i).map { c =>
-      Ok(Json.toJson(Json.obj(
-        "color" -> c
-      )))
-    }.getOrElse(NotFound)
-  }
 
   def requireJsConfig = Cached("require_js_config") {
     Action {
@@ -45,19 +20,22 @@ object Application extends Controller {
   }
 
   def serverSideWithJsEngine(uri: String) = Action.async { request =>
-    import akka.pattern.ask
 
-    val serverside = Play.getFile("public/serverside.js")
-    val f = new File(serverside.toURI)
-    implicit val timeout = Timeout(5.seconds)
-    val engine = Akka.system.actorOf(Trireme.props(), s"js-engine-${request.id}")
+    // TODO - move this block to constructor in production
+    val manager: ScriptEngineManager = new ScriptEngineManager(null)
+    val engine = manager.getEngineByName("nashorn")
+    val invocable = engine.asInstanceOf[javax.script.Invocable]
+    val nashornpolyfill = scala.io.Source.fromFile(Play.getFile("public/nashorn-polyfill.js")).mkString
+    val serversidejs = scala.io.Source.fromFile(Play.getFile("public/serverside.js")).mkString
+    engine.eval(nashornpolyfill)
+    engine.eval(serversidejs)
+    val markupPromise = Promise[String]()
+    invocable.invokeFunction("prerender", request.uri, markupPromise)
 
     for {
-      result <- (engine ? Engine.ExecuteJs(f, List("/"+uri), timeout.duration)).mapTo[JsExecutionResult]
+      markup <- markupPromise.future
     } yield {
-      val output = new String(result.output.toArray, "UTF-8")
-      val err = new String(result.error.toArray, "UTF-8")
-      Ok(views.html.main(Html(new String(result.output.toArray, "UTF-8"))))
+      Ok(views.html.main(Html(markup)))
     }
   }
 

@@ -10,16 +10,14 @@ var navigateAction = require('flux-router-component').navigateAction;
 var React = require('react');
 var app = require('./app');
 
-(function () {
+global.prerender = function (uri, markupPromise) {
     var context = app.createContext();
-    var url = global.process.argv[2];
-    var output = console.log;
-    console.log = function() {};
+
     context.getActionContext().executeAction(navigateAction, {
-        url: url
+        url: uri
     }, function (err) {
         if (err) {
-            output(err);
+            markupPromise.success(err);
             return;
         }
 
@@ -28,7 +26,7 @@ var app = require('./app');
 
         React.withContext(context.getComponentContext(), function () {
             var markup = React.renderToStaticMarkup(appComponent());
-            output('<div id="app">' + markup + '</div><script>' + exposed + '</script>');
+            markupPromise.success('<div id="app">' + markup + '</div><script>' + exposed + '</script>');
         });
     });
-})();
+}

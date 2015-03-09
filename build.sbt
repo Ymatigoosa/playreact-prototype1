@@ -13,8 +13,6 @@ libraryDependencies ++= Seq(
   "org.webjars" % "bootstrap" % "3.3.2",
   "org.webjars" % "jquery" % "1.11.1",
   "org.webjars" % "requirejs" % "2.1.16",
-  "com.typesafe" %% "jse" % "1.0.2",
-  "io.apigee.trireme" % "trireme" % "0.8.5",
   // Test dependencies
   "org.webjars" % "rjs" % "2.1.15" % "test",
   "org.webjars" % "squirejs" % "0.1.0" % "test"
