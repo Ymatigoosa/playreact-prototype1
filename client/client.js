@@ -28,7 +28,7 @@ var context = app.createContext();
 window.context = context;
 
 context.getActionContext().executeAction(navigateAction, {
-    url: window.location.href //
+    url: window.location.pathname //
 }, function (err) {
     if (err) {
         if (err.status && err.status === 404) {
