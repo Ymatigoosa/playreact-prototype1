@@ -1,4 +1,4 @@
-
+#from example (todo - delete...)
 GET        /sum/:password                     controllers.SumController.socket(password)
 
 GET        /webjars/requireJsConfig.js        controllers.Application.requireJsConfig
@@ -12,6 +12,8 @@ GET        /assets/*file                      controllers.Assets.at(path="/publi
 # WebJars
 GET        /webjars/*file                     controllers.WebJarAssets.at(file)
 
-GET        /                                  controllers.Application.serverSideWithJsEngine(uri = "")
+GET        /                                  controllers.Application.index(uri = "")
 
-GET        /*uri                              controllers.Application.serverSideWithJsEngine(uri)
+GET        /api/:action                       controllers.Application.api(action, id: Option[Int])
+
+GET        /*uri                              controllers.Application.index(uri)

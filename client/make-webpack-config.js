@@ -9,7 +9,7 @@ module.exports = function(options) {
 		//main: reactEntry("main"),
 		// second: reactEntry("second")
 		client: "./client",
-		serverside: "./serverside",
+		serverside: "./serverside"
 	};
 	var loaders = {
 		"coffee": "coffee-redux-loader",

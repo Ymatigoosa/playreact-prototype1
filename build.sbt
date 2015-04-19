@@ -1,4 +1,4 @@
-name := "super-recipe-storage"
+name := "scissis-prototype1"
 
 version := "2.3.8"
 
