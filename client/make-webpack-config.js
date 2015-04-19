@@ -6,20 +6,12 @@ var joinEntry = require("./config/joinEntry");
 
 module.exports = function(options) {
 	var entry = {
-		//main: reactEntry("main"),
-		// second: reactEntry("second")
-		client: "./client",
-		serverside: "./serverside"
+		client: "./client"
 	};
 	var loaders = {
 		"coffee": "coffee-redux-loader",
-		//"jsx": options.hotComponents ? ["react-hot-loader", "jsx-loader?harmony"] : "jsx-loader?harmony",
-		"jsx": options.hotComponents ? ["react-hot-loader", "babel-loader?experimental&optional=runtime"] : "babel-loader?experimental&optional=runtime",
+		"jsx|js": "babel-loader?experimental&optional=runtime",
 		"json": "json-loader",
-		// "js": {
-			// loader: "6to5-loader",
-			// include: path.join(__dirname, "app")
-		// },
 		"json5": "json5-loader",
 		"txt": "raw-loader",
 		"png|jpg|jpeg|gif|svg": "url-loader?limit=10000",
@@ -96,10 +88,6 @@ module.exports = function(options) {
 		plugins.push(new webpack.optimize.CommonsChunkPlugin("commons", "commons.js" + (options.longTermCaching && !options.prerender ? "?[chunkhash]" : "")));
 	}
 
-
-	/*function reactEntry(name) {
-		return (options.prerender ? "./config/prerender?" : "./config/app?") + name;
-	}*/
 	Object.keys(stylesheetLoaders).forEach(function(ext) {
 		var loaders = stylesheetLoaders[ext];
 		if(Array.isArray(loaders)) loaders = loaders.join("!");
