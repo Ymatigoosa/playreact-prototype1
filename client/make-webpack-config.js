@@ -10,7 +10,7 @@ module.exports = function(options) {
 	};
 	var loaders = {
 		"coffee": "coffee-redux-loader",
-		"jsx|js": "babel-loader?experimental&optional=runtime",
+		"jsx|js": "babel-loader", //?optional=runtime
 		"json": "json-loader",
 		"json5": "json5-loader",
 		"txt": "raw-loader",
@@ -71,6 +71,7 @@ module.exports = function(options) {
 				});
 			}
 		},*/
+		new webpack.IgnorePlugin(/vertx/),
 		new webpack.PrefetchPlugin("react"),
 		new webpack.PrefetchPlugin("react/lib/ReactComponentBrowserEnvironment")
 	];
