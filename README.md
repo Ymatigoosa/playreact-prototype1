@@ -1,6 +1,6 @@
 # About
 
-FOR THE GLORY OF SCALA HUEHUEHUE
+FOR THE GLORY OF SCALA
 
 # How to run?
 
@@ -32,7 +32,7 @@ FOR THE GLORY OF SCALA HUEHUEHUE
 
 * `app` - Play application folder
     * `actors` - actors package
-    * `assets` - this folder can contain js/coffee/less files that uses play-framework js build system.***так как я использую внешнюю систему билдинга эта папка бесполезна, хотя в будущем омжно всё свести в систиму билдинга скалы, тк плагин для es6 вроде есть...***
+    * `assets` - this folder can contain js/coffee/less files that uses play-framework js build system.
     * `controllers`
         * `Application.scala` - main controller
         * `Application_isomorphic.scala` - UNUSED. isomorphic rendering controller
