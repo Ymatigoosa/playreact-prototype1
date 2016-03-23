@@ -1,6 +1,6 @@
 # About
 
-FOR THE GLORY OF SCALA
+abandoned project
 
 # How to run?
 
